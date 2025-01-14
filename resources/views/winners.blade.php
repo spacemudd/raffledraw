@@ -859,15 +859,51 @@
 <body>
 <div class="container mx-auto mt-10">
     <div class="grid grid-cols-1 gap-4 content-center text-center">
-        <h1 class="text-center text-xl">تم السحب</h1>
-        <p>{{ Carbon::now('GMT+3') }}</p>
-        <hr>
+        <div>
+            <h1 class="text-center text-xl">تم السحب</h1>
+            <p>{{ Carbon::now('GMT+3') }}</p>
+            <hr>
 
-        @foreach ($winners as $key => $winner)
-            <p><b>{{ ++$key }}</b> - {{ $winner }}</p>
-        @endforeach
+            <div class="mt-10">
+                <table class="mx-auto table-fixed">
+                    <thead>
+                        <th>الاسم</th>
+                        <th>الرقم</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($winners as $key => $winner)
+                            <tr class="bg-white border-b border-black border-2">
+                                <th class="px-6 py-4 font-medium whitespace-nowrap border-2">{{ $winner }}</th>
+                                <th class="px-6 py-4 font-medium whitespace-nowrap border-2">{{ ++$key }}</th>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
+    <div class="grid mt-10">
+        <div class="text-center">
+            <p class="cursor-pointer mb-5 underline" onclick="toggleDiv()">عرض قائمة المتقدمين ({{ $totalCount }}) بعد الفلترة ({{ count($contestants) }})</p>
+            <table id="contestantsTable" class="border border-b mx-auto mt-5 my-10" style="display:none;">
+                <tbody>
+                @foreach ($contestants as $entry)
+                    <tr class="bg-white border-b border-black border-2">
+                        <th class="p-2">{{ $entry }}</th>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<script>
+    function toggleDiv() {
+        const div = document.getElementById("contestantsTable");
+        div.style.display = (div.style.display === "none" || div.style.display === "") ? "unset" : "none";
+    }
+</script>
 </body>
 </html>

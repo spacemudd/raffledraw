@@ -17,7 +17,9 @@ Route::post('raffle/upload', function(Request $request) {
 
     // Separate the entries to array.
     $contestants = explode("\n", $file->getContent());
+    $totalCount = count($contestants);
     $contestants = array_filter($contestants); // Remove empty lines.
+    $contestants = array_unique($contestants); // Remove duplicate names.
 
     // Choose random 5 people.
     $winners_array = array_rand($contestants, 5);
@@ -29,7 +31,7 @@ Route::post('raffle/upload', function(Request $request) {
     }
 
     // Display the winners.
-    return view('winners', compact('winners'));
+    return view('winners', compact('winners', 'contestants', 'totalCount'));
 })->name('raffle.upload');
 
 Route::middleware('auth')->group(function () {
