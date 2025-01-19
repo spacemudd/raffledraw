@@ -15,8 +15,7 @@ Route::get('/dashboard', function () {
 
 Route::post('raffle/upload', function(Request $request) {
     $file = $request->file('raffle_file');
-
-    dd($file->getContent());
+    
     // Separate the entries to array.
     $lines = explode("\r\n", $file->getContent());
     $contestants = [];
