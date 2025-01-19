@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,23 +16,29 @@ Route::get('/dashboard', function () {
 Route::post('raffle/upload', function(Request $request) {
     $file = $request->file('raffle_file');
 
+    dd($file->getContent());
     // Separate the entries to array.
-    $contestants = explode("\n", $file->getContent());
-    $totalCount = count($contestants);
-    $contestants = array_filter($contestants); // Remove empty lines.
-    $contestants = array_unique($contestants); // Remove duplicate names.
+    $lines = explode("\r\n", $file->getContent());
+    $contestants = [];
 
-    // Choose random 5 people.
-    $winners_array = array_rand($contestants, 5);
-
-    // Get the names of the 5 people.
-    $winners = [];
-    foreach ($winners_array as $winner) {
-        $winners[] = $contestants[$winner];
+    foreach ($lines as &$line) {
+        $line = trim($line);
+        $entry = explode(',', $line);
+        $contestants[] = [
+            'name' => $entry[0],
+            'phone' => $entry[1],
+        ];
     }
 
+    $contestants = Collection::make($contestants);
+    $totalCount = $contestants->count();
+    $uniqueContestants = $contestants->unique('phone');
+
+    // Choose random 5 people.
+    $winners = $uniqueContestants->random(5);
+
     // Display the winners.
-    return view('winners', compact('winners', 'contestants', 'totalCount'));
+    return view('winners', compact('winners', 'contestants', 'totalCount', 'uniqueContestants'));
 })->name('raffle.upload');
 
 Route::middleware('auth')->group(function () {

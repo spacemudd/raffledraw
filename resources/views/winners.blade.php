@@ -867,13 +867,15 @@
             <div class="mt-10">
                 <table class="mx-auto table-fixed">
                     <thead>
+                        <th>الجوال</th>
                         <th>الاسم</th>
                         <th>الرقم</th>
                     </thead>
                     <tbody>
                         @foreach ($winners as $key => $winner)
                             <tr class="bg-white border-b border-black border-2">
-                                <th class="px-6 py-4 font-medium whitespace-nowrap border-2">{{ $winner }}</th>
+                                <th class="px-6 py-4 font-medium whitespace-nowrap border-2">{{ $winner['phone'] }}</th>
+                                <th class="px-6 py-4 font-medium whitespace-nowrap border-2">{{ $winner['name'] }}</th>
                                 <th class="px-6 py-4 font-medium whitespace-nowrap border-2">{{ ++$key }}</th>
                             </tr>
                         @endforeach
@@ -885,12 +887,12 @@
 
     <div class="grid mt-10">
         <div class="text-center">
-            <p class="cursor-pointer mb-5 underline" onclick="toggleDiv()">عرض قائمة المتقدمين ({{ $totalCount }}) بعد الفلترة ({{ count($contestants) }})</p>
+            <p class="cursor-pointer mb-5 underline" onclick="toggleDiv()">عرض قائمة المتقدمين ({{ $totalCount }}) بعد الفلترة ({{ count($uniqueContestants) }})</p>
             <table id="contestantsTable" class="border border-b mx-auto mt-5 my-10" style="display:none;">
                 <tbody>
-                @foreach ($contestants as $entry)
+                @foreach ($uniqueContestants as $entry)
                     <tr class="bg-white border-b border-black border-2">
-                        <th class="p-2">{{ $entry }}</th>
+                        <th class="p-2">{{ $entry['name'] .' - '.$entry['phone'] }}</th>
                     </tr>
                 @endforeach
                 </tbody>
