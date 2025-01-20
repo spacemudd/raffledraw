@@ -12,7 +12,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalCount = Entry::count();
+    $lastEntry = Entry::latest()->first();
+    return view('dashboard', compact('totalCount', 'lastEntry'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -57,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('2025-founding-day-contest/draw', [ContestController::class, 'draw'])->name('contests.draw');
+    Route::get('2025-founding-day-contest/download', [ContestController::class, 'download'])->name('contests.download');
 });
 
 require __DIR__.'/auth.php';

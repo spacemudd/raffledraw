@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entry;
 use Illuminate\Http\Request;
+use Response;
 
 class ContestController extends Controller
 {
@@ -41,5 +42,34 @@ class ContestController extends Controller
 
         session()->flash('success');
         return redirect()->back();
+    }
+
+    function draw()
+    {
+        $winners = Entry::where('answer', 2)
+            ->orderByRaw('RANDOM()')
+            ->take(5)
+            ->get();
+
+        return view('draw', compact('winners'));
+    }
+
+    function download()
+    {
+        $entries = Entry::toBase()->get();
+
+        $csvFileName = 'entries.csv';
+        $csvFile = fopen($csvFileName, 'w');
+        $headers = array_keys((array) $entries[0]); // Get the column headers from the first row
+        fprintf($csvFile, chr(0xEF).chr(0xBB).chr(0xBF));
+        fputcsv($csvFile, $headers);
+
+        foreach ($entries as $row) {
+            fputcsv($csvFile, (array) $row);
+        }
+
+        fclose($csvFile);
+
+        return Response::download(public_path($csvFileName))->deleteFileAfterSend(true);
     }
 }
