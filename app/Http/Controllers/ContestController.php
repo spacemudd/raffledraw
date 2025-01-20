@@ -47,7 +47,7 @@ class ContestController extends Controller
     function draw()
     {
         $winners = Entry::where('answer', 2)
-            ->orderByRaw('RANDOM()')
+            ->orderByRaw(config('database.default') === 'sqlite' ? 'RANDOM()' : 'RAND()')
             ->take(5)
             ->get();
 
