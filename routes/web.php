@@ -14,46 +14,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $totalCount = Entry::count();
     $lastEntry = Entry::latest()->first();
-    return view('dashboard', compact('totalCount', 'lastEntry'));
+    $correctEntries = Entry::where('answer', 2)->count();
+    return view('dashboard', compact('totalCount', 'lastEntry', 'correctEntries'));
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::get('2025-founding-day-contest', [ContestController::class, 'index'])->name('contests.index');
 Route::post('2025-founding-day-contest/enter', [ContestController::class, 'enter'])->name('contests.enter');
-
-
-Route::post('raffle/upload', function(Request $request) {
-    $file = $request->file('raffle_file');
-
-    // Separate the entries to array.
-    $lines = explode("\r\n", $file->getContent());
-    $contestants = [];
-
-    foreach ($lines as &$line) {
-        $line = trim($line);
-        $entry = explode(',', $line);
-        $contestants[] = [
-            'name' => $entry[0],
-            'phone' => $entry[1],
-        ];
-    }
-
-    $contestants = collect($contestants);
-    dd($contestants->unique('phone')->count());
-    //$d = Entry::insert($contestants);
-
-    dd($d);
-
-    $uniqueContestants = $contestants->unique('phone');
-
-    dd($uniqueContestants->count());
-
-    // Choose random 5 people.
-    $winners = $uniqueContestants->random(5);
-
-    // Display the winners.
-    return view('winners', compact('winners', 'contestants', 'totalCount', 'uniqueContestants'));
-})->name('raffle.upload');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

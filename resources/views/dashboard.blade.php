@@ -15,8 +15,14 @@
             </div>
             <div class="col-span-2">
                 <div class="bg-yellow-300 p-5 rounded">
+                    <p class="text-xs">Correct Entries</p>
+                    <h1 class="2xlg">{{ $correctEntries }}</h1>
+                </div>
+            </div>
+            <div class="col-span-2">
+                <div class="bg-yellow-300 p-5 rounded">
                     <p class="text-xs">Last entry</p>
-                    <h1 class="2xlg">{{ $totalCount }}</h1>
+                    <h1 class="2xlg">{{ $lastEntry->created_at }}</h1>
                 </div>
             </div>
         </div>
@@ -26,7 +32,7 @@
             <div class="grid lg:grid-cols-12 gap-5 mt-3">
                 <div class="col-span-4">
                     <a href="{{ route('contests.draw') }}" class="bg-teal-500 rounded p-2 text-sm text-white">
-                        Draw (5 winners out of {{ $totalCount }})
+                        Draw (5 winners out of {{ $correctEntries }})
                     </a>
                     <br/>
                     <br/>
