@@ -3,6 +3,8 @@
 use App\Http\Controllers\ContestController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Entry;
+use Carbon\Carbon;
+use IcehouseVentures\LaravelChartjs\Facades\Chartjs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +12,42 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('contests.index');
 });
+
+Route::get('/kpi8OwoL4cNuw', function () {
+    $totalCount = Entry::count();
+    $lastEntry = Entry::latest()->first();
+    $correctEntries = Entry::where('answer', 2)->count();
+
+
+    $entries = Entry::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->groupBy('date')
+        ->orderBy('date', 'ASC')
+        ->get();
+    $labels = $entries->pluck('date')->map(fn($date) => Carbon::parse($date)->format('Y-m-d'))->toArray();
+    $data = $entries->pluck('count')->toArray();
+
+    $chart = Chartjs::build()
+        ->name('barChartTest')
+        ->type('bar')
+        ->size(['width' => 400, 'height' => 200])
+        ->labels($labels)
+        ->datasets([
+            [
+                "label" => "Entries",
+                'backgroundColor' => ['rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                'data' => $data,
+            ],
+        ])
+        ->options([
+            "scales" => [
+                "y" => [
+                    "beginAtZero" => true
+                ]
+            ]
+        ]);
+
+    return view('kpi', compact('totalCount', 'lastEntry', 'correctEntries', 'chart'));
+})->name('kpi');
 
 Route::get('/dashboard', function () {
     $totalCount = Entry::count();
