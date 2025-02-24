@@ -15,14 +15,15 @@ Route::get('/', function () {
 });
 
 Route::get('/kpi8OwoL4cNuw', function () {
-    $totalCount = Entry::count();
-    $lastEntry = Entry::latest()->first();
-    $correctEntries = Entry::where('answer', 2)->count();
+    $totalCount = Entry::where('contest_name', 'saudi_founding_day_2025')->count();
+    $lastEntry = Entry::where('contest_name', 'saudi_founding_day_2025')->latest()->first();
+    $correctEntries = Entry::where('contest_name', 'saudi_founding_day_2025')->where('answer', 2)->count();
 
 
     $entries = Entry::selectRaw('DATE(created_at) as date, COUNT(*) as count')
         ->groupBy('date')
         ->orderBy('date', 'ASC')
+        ->where('contest_name', 'saudi_founding_day_2025')
         ->get();
     $labels = $entries->pluck('date')->map(fn($date) => Carbon::parse($date)->format('Y-m-d'))->toArray();
     $data = $entries->pluck('count')->toArray();
