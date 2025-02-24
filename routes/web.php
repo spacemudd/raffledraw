@@ -47,7 +47,10 @@ Route::get('/kpi8OwoL4cNuw', function () {
             ]
         ]);
 
-    return view('kpi', compact('totalCount', 'lastEntry', 'correctEntries', 'chart'));
+    $downloadUrl = route('contests.download');
+    $drawUrl = route('contests.draw');
+
+    return view('kpi', compact('totalCount', 'lastEntry', 'correctEntries', 'chart', 'downloadUrl', 'drawUrl'));
 })->name('kpi');
 
 Route::get('/kpi8OwoL7cNuw', function () {
