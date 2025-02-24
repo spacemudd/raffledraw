@@ -213,7 +213,7 @@
             </div>
 
 
-            <div class="text-center justify-center rounded-xl my-5" style="background: url('/header.png');background-position:center;background-size:cover;height:300px;">
+            <div class="text-center justify-center rounded-xl my-5" style="background: url('/ramadan2025.png');background-position:center;background-size:cover;height:300px;">
             </div>
 
             <p class=""><a class="text-lime-800 text-xs" href="https://shop.adventurksa.com">الرئيسية</a></p>
