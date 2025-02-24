@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Entry;
 use Illuminate\Http\Request;
-use Response;
 
-class ContestController extends Controller
+class RamadanContestController extends Controller
 {
     public function index()
     {
-        return view('contests.founding-day.create');
+        return view('contests.ramadan2025.create');
     }
 
     function enter(Request $request)
@@ -23,7 +22,7 @@ class ContestController extends Controller
             'g-recaptcha-response' => 'required|captcha'
         ]);
 
-        $alreadyExists = Entry::where('contest_name', 'saudi_founding_day_2025')
+        $alreadyExists = Entry::where('contest_name', 'ramadan_2025')
             ->where('mobile', $request->mobile)
             ->exists();
 
@@ -33,7 +32,7 @@ class ContestController extends Controller
         }
 
         $entry = new Entry();
-        $entry->contest_name = 'saudi_founding_day_2025';
+        $entry->contest_name = 'ramadan_2025';
         $entry->answer = $request->input('answer');
         $entry->name = $request->input('name');
         $entry->mobile = $request->input('mobile');
@@ -56,7 +55,7 @@ class ContestController extends Controller
 
     function download()
     {
-        $entries = Entry::where('contest_name', 'saudi_founding_day_2025')->toBase()->get();
+        $entries = Entry::where('contest_name', 'ramadan_2025')->toBase()->get();
 
         $csvFileName = 'entries.csv';
         $csvFile = fopen($csvFileName, 'w');

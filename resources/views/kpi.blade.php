@@ -37,12 +37,12 @@
             <h2 class="font-bold">Actions</h2>
             <div class="grid lg:grid-cols-12 gap-5 mt-3">
                 <div class="col-span-4">
-                    <a href="{{ route('contests.draw') }}" class="bg-teal-500 rounded p-2 text-sm text-white">
+                    <a href="{{ $drawUrl }}" class="bg-teal-500 rounded p-2 text-sm text-white">
                         Draw (5 winners out of {{ $correctEntries }})
                     </a>
                     <br/>
                     <br/>
-                    <a href="{{ route('contests.download') }}" class="bg-teal-500 rounded p-2 text-sm text-white">Download (.csv)</a>
+                    <a href="{{ $downloadUrl }}" class="bg-teal-500 rounded p-2 text-sm text-white">Download (.csv)</a>
                 </div>
                 <div class="col-span-4">
 
