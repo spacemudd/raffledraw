@@ -46,6 +46,7 @@ class RamadanContestController extends Controller
     function draw()
     {
         $winners = Entry::where('answer', 2)
+            ->where('contest_name', 'ramadan_2025')
             ->orderByRaw(config('database.default') === 'sqlite' ? 'RANDOM()' : 'RAND()')
             ->take(5)
             ->get();
