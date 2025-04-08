@@ -54,7 +54,7 @@ Route::get('/kpi8OwoL4cNuw', function () {
     return view('kpi', compact('totalCount', 'lastEntry', 'correctEntries', 'chart', 'downloadUrl', 'drawUrl'));
 })->name('kpi');
 
-Route::get('/kpi8OwoL7cNuw', function () {
+Route::get('/kpi8OwoL222222', function () {
     $totalCount = Entry::where('contest_name', 'ramadan_2025')->count();
     $lastEntry = Entry::where('contest_name', 'ramadan_2025')->latest()->first();
     $correctEntries = Entry::where('contest_name', 'ramadan_2025')->where('answer', 2)->count();
