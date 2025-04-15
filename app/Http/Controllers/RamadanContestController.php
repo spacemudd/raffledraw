@@ -49,7 +49,7 @@ class RamadanContestController extends Controller
         $winners = Entry::where('answer', 2)
             ->where('contest_name', 'ramadan_2025')
             ->orderByRaw(config('database.default') === 'sqlite' ? 'RANDOM()' : 'RAND()')
-            ->take(5)
+            ->take(1)
             ->get();
 
         return view('draw', compact('winners'));
